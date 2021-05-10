@@ -1,0 +1,25 @@
+version: '3'
+services:
+  pde:
+    container_name: pde
+    image: postgres
+    ports:
+    - 5432:5432
+    environment:
+      - POSTGRES_DB=jdbcDB
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1111
+    volumes:
+      - ./script.sql:/docker-entrypoint-initdb.d/script.sql
+
+  cdi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+    - 8081:8080
+    depends_on:
+    - pde
+
+
+
